@@ -15,6 +15,7 @@ export default Radium(class Button extends React.Component {
   }
 )
 var buttonStyle = {
+  float: 'left',
   maxHeight:'20px',
   border: '2px solid rgb(121,124,127)',
   fontFamily: 'Helvetica',
