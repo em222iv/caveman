@@ -5,3 +5,4 @@ import App from './app';
 ReactDOM.render(<App />, document.getElementById('app'));
 
 // console.log('Good luck');
+// console.log('Thanks!');

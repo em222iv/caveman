@@ -1,39 +1,39 @@
 import React from 'react';
 import Radium from 'radium';
 
-var Dropdown = Radium(React.createClass({
-    getInitialState() {
-     return { hover: dropdownStyle.nonehover };
-    },
-    onMouseEnterHandler() {
-       this.setState({ hover: dropdownStyle.onhover });
-    },
-    onMouseLeaveHandler() {
-       this.setState({ hover: dropdownStyle.nonehover });
-    },
-    render() {
-      return <div onMouseEnter={this.onMouseEnterHandler} onMouseLeave={this.onMouseLeaveHandler} style={dropdownStyle.dropdown}>
-        <div  style={dropdownStyle.dropdown.title}>
-          <a>{this.props.title}</a>
-          <img src={this.state.hover.icon} style={dropdownStyle.icon}/>
-        </div>
-        <div style={this.state.hover}>
-        {
-          this.props.subTargets.subTargets.map((target) => {
-            return <div style={dropdownStyle.subTargetStyle.div} key={"div-"+target.url}>
-                <a href={"#"+target.url} key={"a"+target.url} style={dropdownStyle.subTargetStyle.a}>
-                  {target.title}
-                </a>
-              </div>
-            })
-          }
-          </div>
+export default Radium(class Dropdown extends React.Component {
+  constructor(props) {
+    super(props);
+    this.state = { hover: dropdownStyle.nonehover };
+  }
+  onEnter() {
+    this.setState({ hover: dropdownStyle.onhover });
+  }
+  onLeave() {
+     this.setState({ hover: dropdownStyle.nonehover });
+  }
+  render() {
+    return <div onMouseEnter={this.onEnter.bind(this)} onMouseLeave={this.onLeave.bind(this)} style={dropdownStyle.dropdown}>
+      <div style={dropdownStyle.dropdown.title}>
+        <a>{this.props.title}</a>
+        <img src={this.state.hover.icon} style={dropdownStyle.dropdown.icon}/>
       </div>
-      }
+      <div style={this.state.hover}>
+      {
+        this.props.subTargets.dropdownLinks.map((target) => {
+          return <div onClick={() => this.props.onClick(target.state)} style={dropdownStyle.subTargets.div} key={"div-"+target.state}>
+              <a href="#" key={"a-"+target.state} style={dropdownStyle.subTargets.a}>
+                {target.title}
+              </a>
+            </div>
+          })
+        }
+        </div>
+    </div>
     }
-  )
+  }
 )
-var dropdownStyle = {
+let dropdownStyle = {
   nonehover: {
     visibility: 'hidden',
     opacity: '0',
@@ -48,8 +48,7 @@ var dropdownStyle = {
   },
   dropdown: {
     float: 'left',
-    marginLeft:'20px',
-    maxHeight: '40px',
+    maxHeight: '38px',
     minWidth:'200px',
     backgroundColor:'rgb(28,32,38)',
     border: '2px solid rgb(121,124,127)',
@@ -64,13 +63,13 @@ var dropdownStyle = {
     title: {
       padding:'0 0 10px 20px'
     },
+    icon: {
+      float: 'right',
+      width:'30px',
+      paddingRight:'10px',
+    },
   },
-  icon: {
-    float: 'right',
-    width:'30px',
-    paddingRight:'10px',
-  },
-  subTargetStyle: {
+  subTargets: {
     div: {
       minWidth:'100%',
       transition:' color 0.6s ease',
@@ -88,8 +87,7 @@ var dropdownStyle = {
       transition:' color 0.6s ease',
       ':hover': {
         color:'#000000',
-      },
-    },
+      }
+    }
   }
 }
-export default Dropdown

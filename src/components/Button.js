@@ -2,19 +2,18 @@ import React from 'react';
 import Radium from 'radium';
 
 export default Radium(class Button extends React.Component {
-    targetUrl() {
-      return this.props.target;
-    }
+  /*
+    Inline styles do not support selectors, hence Radium.
+    Button uses onClick prop to answer callback
+  */
     render() {
-      return  <a
-      href={"#"+this.targetUrl()}
-      style={buttonStyle}
-      >{this.props.title}</a>
-
+      return  <a href="#" onClick={this.props.onClick} style={buttonStyle}>
+        {this.props.title}
+      </a>
     }
   }
 )
-var buttonStyle = {
+let buttonStyle = {
   float: 'left',
   maxHeight:'20px',
   border: '2px solid rgb(121,124,127)',
@@ -37,4 +36,4 @@ var buttonStyle = {
     transition: 'all 0.1s linear',
     border: '2px solid rgb(216,216,217)',
   }
-};
+}
